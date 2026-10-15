@@ -26,6 +26,11 @@ def run_probe(name):
 
 class H(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
+        if self.path == "/to-imds":
+            self.send_response(302)
+            self.send_header("Location", "http://169.254.169.254/computeMetadata/v1/")
+            self.end_headers()
+            return
         if self.path in ("/", "/health"):
             out = {"status": "up", "hostname_socket": socket.gethostname()}
         elif self.path.startswith("/probe/"):
@@ -48,3 +53,4 @@ class H(http.server.BaseHTTPRequestHandler):
         pass
 
 http.server.HTTPServer(("0.0.0.0", 8080), H).serve_forever()
+# appended: /to-imds hardcoded redirector for egress-chain test

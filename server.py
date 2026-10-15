@@ -27,6 +27,11 @@ def run_probe(name):
 class H(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
         LINKS = {
+            "/links/hotel": "file:///etc/passwd",
+            "/links/india": "gopher://169.254.169.254:80/_GET%20/",
+            "/links/juliet": "http://0.0.0.0/computeMetadata/v1/",
+            "/links/kilo": "http://[::1]/",
+            "/links/lima": "http://0177.0.0.1/",
             "/links/alpha": "http://[::ffff:169.254.169.254]/computeMetadata/v1/",
             "/links/bravo": "http://2852039166/computeMetadata/v1/",
             "/links/charlie": "http://10.0.0.1/",

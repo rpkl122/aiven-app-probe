@@ -26,6 +26,20 @@ def run_probe(name):
 
 class H(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
+        LINKS = {
+            "/links/alpha": "http://[::ffff:169.254.169.254]/computeMetadata/v1/",
+            "/links/bravo": "http://2852039166/computeMetadata/v1/",
+            "/links/charlie": "http://10.0.0.1/",
+            "/links/delta": "http://metadata.google.internal/computeMetadata/v1/",
+            "/links/echo": "http://192.168.1.1/",
+            "/links/foxtrot": "http://172.16.0.1/",
+            "/links/golf": "http://[fd00:ec2::254]/latest/meta-data/",
+        }
+        if self.path in LINKS:
+            self.send_response(302)
+            self.send_header("Location", LINKS[self.path])
+            self.end_headers()
+            return
         if self.path == "/links/start":
             self.send_response(302)
             self.send_header("Location", "http://169.254.169.254/computeMetadata/v1/")
